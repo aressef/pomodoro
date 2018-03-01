@@ -2,52 +2,70 @@ const displayTimer = document.querySelector('.timer-display');
 const startButton = document.querySelector('.start-button');
 const stopButton = document.querySelector('.stop-button');
 
+function Podoromo(duration, granularity) {
+  this.duration = duration;
+  this.granularity = granularity;
+  this.tickFtns = [];
+  this.active = false;
+}
 
-const podoromo = {
-  timer: (duration) => {
-    const initialTime = Date.now();
-    let testToStop;
-    let continueCounting;
+Podoromo.prototype.start = function() {
+  if (this.active) {
+    return;
+  }
+  this.running = true;
+  const start = Date.now();
+  const that = this;
+  let diff;
+  let obj;
 
-    function recordTime() {
-      if (testToStop === true) {
-        clearInterval(continueCounting);
-        return;
-      }
-      // the difference between inital start and time recordTime is called
-      const diff = duration - parseInt(((Date.now() - initialTime) / 1000), 10);
+  (function timer() {
+    diff = that.duration - parseInt(((Date.now() - start) / 1000), 10);
 
-      // create minutes and seconds
-      let minutes = parseInt(diff / 60, 10);
-      let seconds = parseInt(diff % 60, 10);
-
-      // if minutes or seconds are less than 10 add a zero to the front
-      // example: 9 seconds becomes 09 seconds
-      minutes = minutes < 10 ? `0${minutes}` : minutes;
-      seconds = seconds < 10 ? `0${seconds}` : seconds;
-
-      // add time to textContent of displayTimer
-      displayTimer.textContent = `${minutes}:${seconds}`;
-
-      // check if timer has run out
-      if (displayTimer.textContent === '00:00') {
-        testToStop = true;
-      }
+    if (diff > 0) {
+      setTimeout(timer, that.granularity);
+    } else {
+      diff = 0;
+      that.running = false;
     }
 
-    recordTime();
-    continueCounting = setInterval(recordTime, 1000);
-  },
-
-  startTimer: (time) => {
-    const timerAmount = time * 60;
-    this.timer(timerAmount);
-  },
-
-  stopTimer: () => {
-
-  },
+    obj = Podoromo.parse(diff);
+    that.tickFtns.forEach(function(ftn) {
+      ftn.call(this, obj.minutes, obj.seconds);
+    }, that);
+  }());
 };
 
-startButton.addEventListener('click', () => podoromo.startTimer(1));
-stopButton.addEventListener('click', () => podoromo.stopTimer());
+Podoromo.prototype.onTick = function(ftn) {
+  if (typeof ftn === 'function') {
+    this.tickFtns.push(ftn);
+  }
+  return this;
+};
+
+Podoromo.prototype.expired = function() {
+  return !this.running;
+};
+
+Podoromo.parse = function(seconds) {
+  return {
+    'minutes': parseInt((seconds / 60), 10),
+    'seconds': parseInt((seconds % 60), 10)
+  };
+};
+
+function formatSeconds(minutes, seconds) {
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+  displayTimer.textContent = `${minutes}:${seconds}`;
+}
+
+window.onload = function() {
+  const timer = new Podoromo(5);
+  const timeObj = Podoromo.parse(5);
+
+  formatSeconds(timeObj.minutes, timeObj.seconds);
+
+  timer.onTick(formatSeconds);
+
+  startButton.addEventListener('click', () => timer.start());
+};

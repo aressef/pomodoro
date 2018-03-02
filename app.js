@@ -1,15 +1,18 @@
+//jshint esversion: 6
+const pomodoroBody = document.querySelector('.pomodoro-body');
 const displayTimer = document.querySelector('.timer-display');
-const startButton = document.querySelector('.start-button');
-const stopButton = document.querySelector('.stop-button');
+const startButton = document.querySelector('.start');
+const stopButton = document.querySelector('.stop');
+const adjustTime = document.querySelector('.adjust-time');
 
-function Podoromo(duration, granularity) {
+function Pomodoro(duration, granularity) {
   this.duration = duration;
   this.granularity = granularity;
   this.tickFtns = [];
   this.active = false;
 }
 
-Podoromo.prototype.start = function() {
+Pomodoro.prototype.start = function() {
   if (this.active) {
     return;
   }
@@ -29,25 +32,25 @@ Podoromo.prototype.start = function() {
       that.running = false;
     }
 
-    obj = Podoromo.parse(diff);
+    obj = Pomodoro.parse(diff);
     that.tickFtns.forEach(function(ftn) {
       ftn.call(this, obj.minutes, obj.seconds);
     }, that);
   }());
 };
 
-Podoromo.prototype.onTick = function(ftn) {
+Pomodoro.prototype.onTick = function(ftn) {
   if (typeof ftn === 'function') {
     this.tickFtns.push(ftn);
   }
   return this;
 };
 
-Podoromo.prototype.expired = function() {
+Pomodoro.prototype.expired = function() {
   return !this.running;
 };
 
-Podoromo.parse = function(seconds) {
+Pomodoro.parse = function(seconds) {
   return {
     'minutes': parseInt((seconds / 60), 10),
     'seconds': parseInt((seconds % 60), 10)
@@ -59,13 +62,22 @@ function formatSeconds(minutes, seconds) {
   displayTimer.textContent = `${minutes}:${seconds}`;
 }
 
-window.onload = function() {
-  const timer = new Podoromo(5);
-  const timeObj = Podoromo.parse(5);
+function toggleStartandStop(e) {
+  if (e.target.classList.contains('start')) {
+    startButton.style.display = 'none';
+    stopButton.style.display = 'block';
+  } else if (stopButton.classList.contains('stop')) {
+    stopButton.style.display = 'none';
+    startButton.style.display = 'block';
+  }
+}
 
-  formatSeconds(timeObj.minutes, timeObj.seconds);
 
-  timer.onTick(formatSeconds);
+const timer = new Pomodoro(25);
+const timeObj = Pomodoro.parse(25);
 
-  startButton.addEventListener('click', () => timer.start());
-};
+formatSeconds(timeObj.minutes, timeObj.seconds);
+timer.onTick(formatSeconds);
+
+startButton.addEventListener('click', () => timer.start());
+document.addEventListener('click', toggleStartandStop);

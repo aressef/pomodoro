@@ -4,6 +4,9 @@ const displayTimer = document.querySelector('.timer-display');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const adjustTime = document.querySelector('.adjust-time');
+const inputTime = document.querySelector('.input-time');
+
+
 
 function Pomodoro(duration, granularity) {
   this.duration = duration;
@@ -57,7 +60,7 @@ Pomodoro.parse = function(seconds) {
   };
 };
 
-function formatSeconds(minutes, seconds) {
+function formatTime(minutes, seconds) {
   seconds = seconds < 10 ? `0${seconds}` : seconds;
   displayTimer.textContent = `${minutes}:${seconds}`;
 }
@@ -72,12 +75,22 @@ function toggleStartandStop(e) {
   }
 }
 
+function setTime() {
+  // when user changes time in inputTime the clock changes to that time
+  const time = inputTime.value;
+  timer = new Pomodoro(time * 60);
+  timeObj = Pomodoro.parse(time * 60);
+  formatTime(timeObj.minutes, timeObj.seconds);
+  timer.onTick(formatTime);
+}
 
-const timer = new Pomodoro(25);
-const timeObj = Pomodoro.parse(25);
+let timer = new Pomodoro(25 * 60);
+let timeObj = Pomodoro.parse(25 * 60);
 
-formatSeconds(timeObj.minutes, timeObj.seconds);
-timer.onTick(formatSeconds);
+formatTime(timeObj.minutes, timeObj.seconds);
+timer.onTick(formatTime);
+
 
 startButton.addEventListener('click', () => timer.start());
 document.addEventListener('click', toggleStartandStop);
+inputTime.addEventListener('click', setTime);

@@ -5,8 +5,8 @@ const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const adjustTime = document.querySelector('.adjust-time');
 const inputTime = document.querySelector('.input-time');
-
-
+const addMinute = document.querySelector('.add-minute');
+const subtractMinute = document.querySelector('.subtract-minute');
 
 function Pomodoro(duration, granularity) {
   this.duration = duration;
@@ -84,6 +84,22 @@ function setTime() {
   timer.onTick(formatTime);
 }
 
+function addTime() {
+  if (inputTime.value > 0 && inputTime.value < 60) {
+    const currentDuration = parseInt(inputTime.value, 10);
+    inputTime.value = currentDuration + 1;
+    setTime();
+  }
+}
+
+function subtractTime() {
+  if (inputTime.value > 1 && inputTime.value < 61) {
+    const currentDuration = parseInt(inputTime.value, 10);
+    inputTime.value = currentDuration - 1;
+    setTime();
+  }
+}
+
 let timer = new Pomodoro(25 * 60);
 let timeObj = Pomodoro.parse(25 * 60);
 
@@ -93,4 +109,6 @@ timer.onTick(formatTime);
 
 startButton.addEventListener('click', () => timer.start());
 document.addEventListener('click', toggleStartandStop);
-inputTime.addEventListener('click', setTime);
+inputTime.addEventListener('keyup', setTime);
+addMinute.addEventListener('click', addTime);
+subtractMinute.addEventListener('click', subtractTime); 

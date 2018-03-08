@@ -77,7 +77,23 @@ function toggleStartandStop(e) {
 
 function setTime() {
   // when user changes time in inputTime the clock changes to that time
-  const time = inputTime.value;
+  let time;
+  const errorMessage = document.querySelector('.error-message');
+  // clear error if already there
+  if (errorMessage) document.body.removeChild(errorMessage);
+
+  if (inputTime.value === '') {
+    time = 25;
+  } else if (inputTime.value > 60) {
+    timeError();
+    time = 25;
+  } else if (inputTime.value < 5) {
+    timeError();
+    time = 5;
+  } else {
+    time = inputTime.value;
+  }
+
   timer = new Pomodoro(time * 60);
   timeObj = Pomodoro.parse(time * 60);
   formatTime(timeObj.minutes, timeObj.seconds);
@@ -100,15 +116,35 @@ function subtractTime() {
   }
 }
 
+function timeError() {
+  const error = document.createElement('p');
+  error.classList.add('error-message');
+  error.style.color = 'red';
+
+  if (inputTime.value < 5) {
+    error.textContent = 'You should work for at least 5 minutes!';
+  } else if (inputTime.value > 60) {
+    error.textContent = 'You shouldn\'t work for longer than an hour at a time!';
+  }
+
+  document.body.appendChild(error);
+}
+
+function stopTimer() {
+  clearTimeout(timer);
+  console.log('stop');
+}
+
 let timer = new Pomodoro(25 * 60);
 let timeObj = Pomodoro.parse(25 * 60);
 
 formatTime(timeObj.minutes, timeObj.seconds);
 timer.onTick(formatTime);
 
-
+// Event Listeners
 startButton.addEventListener('click', () => timer.start());
 document.addEventListener('click', toggleStartandStop);
 inputTime.addEventListener('keyup', setTime);
 addMinute.addEventListener('click', addTime);
-subtractMinute.addEventListener('click', subtractTime); 
+subtractMinute.addEventListener('click', subtractTime);
+stopButton.addEventListener('click', stopTimer);

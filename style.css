@@ -1,3 +1,7 @@
 .stop, .reset {
   display: none;
 }
+
+.timer-options {
+  display: none;
+}

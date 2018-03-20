@@ -4,7 +4,8 @@ const displayTimer = document.querySelector('.timer-display');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const resetButton = document.querySelector('.reset');
-const adjustTime = document.querySelector('.adjust-time');
+const changeDuration = document.querySelector('.change-duration');
+const timerOptions = document.querySelector('.timer-options');
 const inputTime = document.querySelector('.input-time');
 const addMinute = document.querySelector('.add-minute');
 const subtractMinute = document.querySelector('.subtract-minute');
@@ -44,6 +45,8 @@ function timer(duration) {
         timerRunning = true;
       }
     }
+
+  timerOptions.style.display = 'none';
 }
 
 function stopTimer() {
@@ -120,6 +123,16 @@ function timeError() {
   document.body.appendChild(error);
 }
 
+function showDurationOptions() {
+  if (stopButton.style.display === 'none') {
+    if (timerOptions.style.display === 'none') {
+      timerOptions.style.display = 'block';
+    } else {
+      timerOptions.style.display = 'none';
+    }
+  }
+}
+
 let timerRunning;
 
 // Event Listeners
@@ -127,6 +140,7 @@ startButton.addEventListener('click', () => timer(inputTime.value));
 stopButton.addEventListener('click', stopTimer);
 resetButton.addEventListener('click', setTime);
 document.addEventListener('click', toggleStartandStop);
+changeDuration.addEventListener('click', showDurationOptions);
 inputTime.addEventListener('keyup', setTime);
 addMinute.addEventListener('click', addTime);
 subtractMinute.addEventListener('click', subtractTime);

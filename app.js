@@ -22,6 +22,7 @@ function timer(duration) {
       currentTimer = setTimeout(start, 1000);
     } else {
       diff = 0;
+      timerRunning = true;
     }
 
     // const diff = Date.now() - start;
@@ -62,12 +63,12 @@ function toggleStartandStop(e) {
 
 function setTime() {
   // when user changes time in inputTime the clock changes to that time
-  let time;
+  let time = inputTime.value;
   const errorMessage = document.querySelector('.error-message');
   // clear error if already there
   if (errorMessage) document.body.removeChild(errorMessage);
 
-  time = inputTime.value;
+  // time = inputTime.value;
 
   if (inputTime.value === '' || isNaN(Number(time))) {
     time = 25;

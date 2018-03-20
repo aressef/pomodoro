@@ -3,6 +3,7 @@ const pomodoroBody = document.querySelector('.pomodoro-body');
 const displayTimer = document.querySelector('.timer-display');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
+const resetButton = document.querySelector('.reset');
 const adjustTime = document.querySelector('.adjust-time');
 const inputTime = document.querySelector('.input-time');
 const addMinute = document.querySelector('.add-minute');
@@ -54,8 +55,11 @@ function toggleStartandStop(e) {
     if (e.target.classList.contains('start') ) {
       startButton.style.display = 'none';
       stopButton.style.display = 'block';
-    } else if (stopButton.classList.contains('stop')) {
+    } else if (e.target.classList.contains('stop')) {
       stopButton.style.display = 'none';
+      resetButton.style.display = 'block';
+    } else if (e.target.classList.contains('reset')) {
+      resetButton.style.display = 'none';
       startButton.style.display = 'block';
     }
   }
@@ -121,102 +125,10 @@ let timerRunning;
 // Event Listeners
 startButton.addEventListener('click', () => timer(inputTime.value));
 stopButton.addEventListener('click', stopTimer);
+resetButton.addEventListener('click', setTime);
 document.addEventListener('click', toggleStartandStop);
 inputTime.addEventListener('keyup', setTime);
 addMinute.addEventListener('click', addTime);
 subtractMinute.addEventListener('click', subtractTime);
 
 setTime();
-
-
-
-
-
-// function Pomodoro(duration, granularity) {
-//   this.duration = duration;
-//   this.granularity = granularity || 1000;
-//   this.tickFtns = [];
-//   this.active = false;
-// }
-
-// Pomodoro.prototype.start = function(cancel) {
-//   if (this.active) {
-//     return;
-//   }
-//   this.running = true;
-//   const start = Date.now();
-//   const that = this;
-//   let diff;
-//   let obj;
-//   let activeTimer;
-
-//   if (cancel === 0) {
-//     clearTimeout(activeTimer);
-//     return;
-//   } else {
-//     timer();
-//   }
-
-//   function timer() {
-//     diff = that.duration - parseInt(((Date.now() - start) / 1000), 10);
-//     if (diff > 0) {
-//       activeTimer = setTimeout(timer, that.granularity);
-//     } else {
-//       diff = 0;
-//       that.running = false;
-//     }
-
-//     obj = Pomodoro.parse(diff);
-//     that.tickFtns.forEach(function(ftn) {
-//       ftn.call(this, obj.minutes, obj.seconds);
-//     }, that);
-//   }
-// };
-
-// Pomodoro.prototype.onTick = function(ftn) {
-//   if (typeof ftn === 'function') {
-//     this.tickFtns.push(ftn);
-//   }
-//   return this;
-// };
-
-// Pomodoro.prototype.expired = function() {
-//   return !this.running;
-// };
-
-// Pomodoro.parse = function(seconds) {
-//   return {
-//     'minutes': parseInt((seconds / 60), 10),
-//     'seconds': parseInt((seconds % 60), 10)
-//   };
-// };
-
-// function formatTime(minutes, seconds) {
-//   const newTimer = document.querySelector('.timer-display');
-
-//   seconds = seconds < 10 ? `0${seconds}` : seconds;
-//   if (displayTimer) {
-//     displayTimer.textContent = `${minutes}:${seconds}`;
-//   } else {
-//     newTimer.textContent = `${minutes}:${seconds}`;
-//   }
-// }
-
-// function stopTimer() {
-//   pomodoroBody.removeChild(displayTimer);
-//   const newTimer = document.createElement('p');
-//   newTimer.classList.add('timer-display');
-//   pomodoroBody.insertBefore(newTimer, startButton);
-  
-//   const time = inputTime.value;
-//   timer = new Pomodoro(time * 60);
-//   timeObj = Pomodoro.parse(time * 60);
-//   formatTime(timeObj.minutes, timeObj.seconds);
-//   timer.onTick(formatTime);
-// }
-
-// let timer = new Pomodoro(25 * 60);
-// let timeObj = Pomodoro.parse(25 * 60);
-
-// formatTime(timeObj.minutes, timeObj.seconds);
-// timer.onTick(formatTime);

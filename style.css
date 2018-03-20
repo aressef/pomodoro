@@ -1,7 +1,27 @@
+body {}
+
+.pomodoro-body {
+  background-color: red;
+}
+
+.timer-display {}
+
+.start, .stop, .reset {}
+
 .stop, .reset {
   display: none;
 }
 
+.adjust-time {}
+
+.change-duration {}
+
 .timer-options {
   display: none;
 }
+
+.input-time {}
+
+.add-minute {}
+
+.subtract-minute {}

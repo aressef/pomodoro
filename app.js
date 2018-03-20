@@ -8,16 +8,18 @@ const inputTime = document.querySelector('.input-time');
 const addMinute = document.querySelector('.add-minute');
 const subtractMinute = document.querySelector('.subtract-minute');
 
-function start(duration) {
-  let start = Date.now();
+function timer(duration) {
+  let startTime = Date.now();
+  let currentTimer;
+  let diff;
 
-  (function f() {
+  function start() {
     const adjustedDuration = duration * 60;
+    
+    diff = adjustedDuration - parseInt(((Date.now() - startTime) / 1000), 10);
 
-    let diff = adjustedDuration - parseInt(((Date.now() - start) / 1000), 10);
-
-    if (diff > 0) {
-      setTimeout(f, 1000);
+    if (diff > 0 && timerRunning !== false) {
+      currentTimer = setTimeout(start, 1000);
     } else {
       diff = 0;
     }
@@ -30,20 +32,31 @@ function start(duration) {
     displayTimer.textContent = `${m}:${(('' + s).length > 1 ? '' : '0')}${s}`;
 
     if (diff > 300000) {
-      start = Date.now();
+      startTime = Date.now();
     }
-  })();
+  }
 
+    if (duration > 4 && duration < 61) {
+      start();
+      if (!timerRunning) {
+        timerRunning = true;
+      }
+    }
+}
+
+function stopTimer() {
+  timerRunning = false;
 }
 
 function toggleStartandStop(e) {
-  if (e.target.classList.contains('start')) {
-    console.log('test');
-    startButton.style.display = 'none';
-    stopButton.style.display = 'block';
-  } else if (stopButton.classList.contains('stop')) {
-    stopButton.style.display = 'none';
-    startButton.style.display = 'block';
+  if (inputTime.value > 4 && inputTime.value < 61) {
+    if (e.target.classList.contains('start') ) {
+      startButton.style.display = 'none';
+      stopButton.style.display = 'block';
+    } else if (stopButton.classList.contains('stop')) {
+      stopButton.style.display = 'none';
+      startButton.style.display = 'block';
+    }
   }
 }
 
@@ -54,7 +67,9 @@ function setTime() {
   // clear error if already there
   if (errorMessage) document.body.removeChild(errorMessage);
 
-  if (inputTime.value === '') {
+  time = inputTime.value;
+
+  if (inputTime.value === '' || isNaN(Number(time))) {
     time = 25;
   } else if (inputTime.value > 60) {
     timeError();
@@ -65,6 +80,9 @@ function setTime() {
   } else {
     time = inputTime.value;
   }
+
+  displayTimer.textContent = `${time}:00`;
+  
 }
 
 function addTime() {
@@ -97,13 +115,17 @@ function timeError() {
   document.body.appendChild(error);
 }
 
+let timerRunning;
+
 // Event Listeners
-startButton.addEventListener('click', () => start(1));
-stopButton.addEventListener('click', () => start(0));
+startButton.addEventListener('click', () => timer(inputTime.value));
+stopButton.addEventListener('click', stopTimer);
 document.addEventListener('click', toggleStartandStop);
 inputTime.addEventListener('keyup', setTime);
 addMinute.addEventListener('click', addTime);
 subtractMinute.addEventListener('click', subtractTime);
+
+setTime();
 
 
 

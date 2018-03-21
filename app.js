@@ -23,7 +23,6 @@ function timer(duration) {
     if (diff > 0 && timerRunning !== false) {
       currentTimer = setTimeout(start, 1000);
     } else {
-      diff = 0;
       timerRunning = true;
     }
 

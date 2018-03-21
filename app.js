@@ -124,11 +124,11 @@ function timeError() {
 }
 
 function showDurationOptions() {
-  if (stopButton.style.display === 'none') {
-    if (timerOptions.style.display === 'none') {
-      timerOptions.style.display = 'block';
-    } else {
+  if (stopButton.style.display !== 'block') {
+    if (timerOptions.style.display === 'block') {
       timerOptions.style.display = 'none';
+    } else {
+      timerOptions.style.display = 'block';
     }
   }
 }

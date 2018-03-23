@@ -7,6 +7,8 @@ html {
   font-size: 10px;
   color: var(--black);
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
+  padding: 0px;
+  margin: 0px;
 }
 
 /* inherit box-sizing: border-box from html tag */

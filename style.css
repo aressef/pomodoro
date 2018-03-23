@@ -1,20 +1,50 @@
-body {}
-
-.pomodoro-body {
-  background-color: red;
+html, body {
+  margin: 0;
+  height: 100%;
 }
 
-.timer-display {}
+body {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e7e6e1;
+}
 
-.start, .stop, .reset {}
+.pomodoro-body {
+  background-color: #537791;
+  padding: 15px;
+  border-radius: 5px;
+}
 
-.stop, .reset {
+.timer-display {
+  font-size: 100px;
+  color: #f7f6e7;
+  margin: 0;
+}
+
+.start, .stop, .reset {
+  border: none;
+  background: none;
+  font-size: 30px;
+  color: #c1c0b9;
+}
+
+.stop {
+  display: none;
+}
+
+.reset {
   display: none;
 }
 
 .adjust-time {}
 
-.change-duration {}
+.change-duration {
+  padding: 10px;
+  font-size: 30px;
+}
 
 .timer-options {
   display: none;

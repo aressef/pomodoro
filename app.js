@@ -53,6 +53,7 @@ function stopTimer() {
 }
 
 function toggleStartandStop(e) {
+  console.log(e.target);  
   if (inputTime.value > 4 && inputTime.value < 61) {
     if (e.target.classList.contains('start') ) {
       startButton.style.display = 'none';

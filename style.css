@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+
 html, body {
   margin: 0;
   height: 100%;
@@ -7,28 +9,46 @@ body {
   margin: 0;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #e7e6e1;
+  background-color: rgb(224, 224, 224);
+  font-family: 'Roboto', sans-serif;
 }
 
 .pomodoro-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #537791;
   padding: 15px;
   border-radius: 5px;
+  width: 275px;
+  font-weight: 300;
 }
 
 .timer-display {
   font-size: 100px;
   color: #f7f6e7;
   margin: 0;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.start:hover, .stop:hover, .reset:hover, .change-duration:hover {
+  color: #f7f6e7
 }
 
 .start, .stop, .reset {
   border: none;
   background: none;
   font-size: 30px;
-  color: #c1c0b9;
+  color: #e7e6e1;
 }
 
 .stop {
@@ -39,19 +59,44 @@ body {
   display: none;
 }
 
-.adjust-time {}
-
 .change-duration {
   padding: 10px;
   font-size: 30px;
+  color: #e7e6e1;
+  margin: 0;
 }
 
 .timer-options {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.input-time {}
+.add-minute, .subtract-minute {
+  border: none;
+  background: none;
+  color: #e7e6e1;
+  font-size: 15px;
+}
 
-.add-minute {}
+.input-time {
+  text-align: center;
+  font-size: 25px;
+  color: #f7f6e7;
+  background: none;
+  border: none;
+}
 
-.subtract-minute {}
+.add-minute:hover, .add-minute:active {
+  color: #53916f
+}
+
+.subtract-minute:hover, .subtract-minute:active {
+  color: #915353;
+}
+
+.error-message {
+  color: #b83030;
+  font-size: 15px;
+  font-weight: 200;
+}

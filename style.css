@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500');
 
 html, body {
   margin: 0;
@@ -14,6 +14,13 @@ body {
   align-items: center;
   background-color: rgb(224, 224, 224);
   font-family: 'Roboto', sans-serif;
+}
+
+.title {
+  font-size: 38px;
+  font-weight: 100;
+  color: #537791
+
 }
 
 .pomodoro-body {

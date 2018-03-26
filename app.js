@@ -112,7 +112,6 @@ function subtractTime() {
 function timeError() {
   const error = document.createElement('p');
   error.classList.add('error-message');
-  error.style.color = 'red';
 
   if (inputTime.value < 5) {
     error.textContent = 'You should work for at least 5 minutes!';
@@ -125,10 +124,10 @@ function timeError() {
 
 function showDurationOptions() {
   if (stopButton.style.display !== 'block') {
-    if (timerOptions.style.display === 'block') {
+    if (timerOptions.style.display === 'flex') {
       timerOptions.style.display = 'none';
     } else {
-      timerOptions.style.display = 'block';
+      timerOptions.style.display = 'flex';
     }
   }
 }
